@@ -17,21 +17,12 @@ export const App =()=> {
     const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
   
-  
-   useEffect(()=>{
-    
-   })
-  //  {
-  //   if (prevState.page !== this.state.page) {
-  //     this.fetchImageByPage(this.state.searchTerm, this.state.page);
-  //   }
-  // }
 
   const fetchGallery = searchTerm => {
       setIsLoading(true);
       setPictures([]);
       setPage(1);
-      fetchImageGallery(searchTerm, page);
+      setSearchTerm(searchTerm);
   };
 
   useEffect (() => {
@@ -41,11 +32,9 @@ export const App =()=> {
 
     fetchImageGallery(searchTerm, page).then(res => {
       try {
-        setIsLoading(true);
         const normalizedImages = api.normalizedImages(res.hits);
         setPictures(pictures => [...pictures, ...normalizedImages]);
-        setIsLoading(false);
-        // setSearchTerm(searchTerm);
+        setSearchTerm(searchTerm);
         setTotal(res.totalHits);
       } catch (error) {
         error ('Something went wrong!') ;
@@ -53,7 +42,7 @@ export const App =()=> {
         setIsLoading(false);
       }
     })
-  }, [searchTerm, currentImageInModal])
+  }, [searchTerm, page])
 
  const changeShowModal = (newState, imgUrl) => {
       setShowModal(newState);
@@ -64,7 +53,7 @@ export const App =()=> {
   
     return (
       <>
-        <Searchbar getGallery={fetchGallery} />
+        <Searchbar getGallery={fetchGallery} setSearchTerm={setSearchTerm}/>
         {isLoading && <Loader />}
         {pictures.length > 0 ? (
           <ImageGallery

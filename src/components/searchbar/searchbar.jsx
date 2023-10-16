@@ -7,7 +7,7 @@ import {
   HeaderCss,
 } from './searchbar.styled';
 
-export const Searchbar = (getGallery) => {
+export const Searchbar = ({getGallery, setSearchTerm}) => {
   const [inputValue, setInputValue] = useState('');
 
   const getGalleryPictures = e => {
@@ -15,12 +15,15 @@ export const Searchbar = (getGallery) => {
   };
 
   const handleClick = () => {
-    getGallery(inputValue);
+    
     if (inputValue === '') {
       Notiflix.Notify.info(
         'The search bar cannot be empty. Please type any criteria in the search bar.'
       );
-    }
+    }else {
+      setInputValue(inputValue);
+      getGallery(inputValue)
+    };
   };
 
   const handleKeyPressed = e => {

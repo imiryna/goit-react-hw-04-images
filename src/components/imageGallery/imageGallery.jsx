@@ -12,7 +12,6 @@ export const ImageGallery = ({dataPictures,changeShowModal}) => {
           dataPictures.map(picture => (
             <ImageGalleryItem
               key={picture.id}
-              id={picture.id}
               image={picture}
               changeShowModal={changeShowModal}
             />
